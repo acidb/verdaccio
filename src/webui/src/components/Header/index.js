@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 
 import API from '../../../utils/api';
 import storage from '../../../utils/storage';
-import {getRegistryURL} from '../../../utils/url';
+// import {getRegistryURL} from '../../../utils/url';
 import {HEADERS} from '../../../../lib/constants';
 
 import classes from './header.scss';
@@ -146,7 +146,7 @@ export default class Header extends React.Component {
   }
 
   render() {
-    const registryURL = getRegistryURL();
+    // const registryURL = getRegistryURL();
 
     return (
       <header className={ classes.header }>
@@ -154,11 +154,13 @@ export default class Header extends React.Component {
           <Link to="/">
             <img src={ this.state.logo } className={ classes.logo } />
           </Link>
+          {/* --- Mobiscroll ---
           <figure>
             npm set registry { registryURL }
             <br/>
             npm adduser --registry { registryURL }
           </figure>
+          */}
 
           <div className={ classes.headerRight }>
             {this.renderUserActionButton()}

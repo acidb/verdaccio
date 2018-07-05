@@ -1,19 +1,23 @@
 import React from 'react';
-import SyntaxHighlighter, {registerLanguage} from 'react-syntax-highlighter/dist/light';
-import sunburst from 'react-syntax-highlighter/src/styles/sunburst';
-import js from 'react-syntax-highlighter/dist/languages/javascript';
+// import SyntaxHighlighter, {registerLanguage} from 'react-syntax-highlighter/dist/light';
+// import sunburst from 'react-syntax-highlighter/src/styles/sunburst';
+// import js from 'react-syntax-highlighter/dist/languages/javascript';
 
 import classes from './help.scss';
-import {getRegistryURL} from '../../../utils/url';
+// import {getRegistryURL} from '../../../utils/url';
 
-registerLanguage('javascript', js);
+// registerLanguage('javascript', js);
 
 const Help = () => {
-  const registryURL = getRegistryURL();
+  // const registryURL = getRegistryURL();
 
     return (
       <div className={classes.help}>
         <li className={classes.noPkg}>
+          <h1 className={classes.noPkgTitle}>
+            Please login to see available packages.
+          </h1>
+          {/* --- Mobiscroll ---
           <h1 className={classes.noPkgTitle}>
             No Package Published Yet
           </h1>
@@ -34,6 +38,7 @@ const Help = () => {
             </SyntaxHighlighter>
             <strong>3. Refresh this page!</strong>
           </div>
+          */}
         </li>
       </div>
     );

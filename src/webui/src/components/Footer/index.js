@@ -2,15 +2,15 @@ import React from 'react';
 
 import classes from './footer.scss';
 import logo from './logo.svg';
-import earth from './earth.svg';
+// import earth from './earth.svg';
 
 // Vectors from Twitter Emoji (Open Source)
-import brazilFlag from './flags/brazil-1f1e7-1f1f7.svg';
-import chinaFlag from './flags/china-1f1e8-1f1f3.svg';
-import indiaFlag from './flags/india-1f1ee-1f1f3.svg';
-import nicaraguaFlag from './flags/nicaragua-1f1f3-1f1ee.svg';
-import pakistanFlag from './flags/pakistan-1f1f5-1f1f0.svg';
-import spainFlag from './flags/spain-1f1ea-1f1f8.svg';
+// import brazilFlag from './flags/brazil-1f1e7-1f1f7.svg';
+// import chinaFlag from './flags/china-1f1e8-1f1f3.svg';
+// import indiaFlag from './flags/india-1f1ee-1f1f3.svg';
+// import nicaraguaFlag from './flags/nicaragua-1f1f3-1f1ee.svg';
+// import pakistanFlag from './flags/pakistan-1f1f5-1f1f0.svg';
+// import spainFlag from './flags/spain-1f1ea-1f1f8.svg';
 
 export default class Footer extends React.Component {
   constructor(props) {
@@ -33,6 +33,7 @@ export default class Footer extends React.Component {
         <footer
           className={`container ${classes.footer} ${this.state.showAuthorsGeographic && classes.showAuthorsGeographic}`}
         >
+          {/* --- Mobiscroll ---
           <span>Made with&nbsp;</span>
           <span>❤</span>
           <span>&nbsp;on</span>
@@ -45,6 +46,7 @@ export default class Footer extends React.Component {
             <img src={pakistanFlag} alt="Pakistan" title="Pakistan" className="emoji"/>
             <img src={spainFlag} alt="Spain" title="Spain" className="emoji"/>
           </div>
+          */}
           {/* Countries are order by alphabets */}
 
           <div className={classes.right}>
