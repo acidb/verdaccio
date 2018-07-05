@@ -140,6 +140,27 @@ class Auth {
     })();
   }
 
+  process_stream(package_name, filename, user, stream, callback) {
+    let plugins = this.plugins.slice(0);
+    let pkg = Object.assign({
+        name: package_name,
+      },
+      this.config.getMatchedPackagesSpec(package_name));
+    (function next() {
+      let p = plugins.shift();
+
+      if (typeof (p.process_stream) !== 'function') {
+        return next();
+      }
+
+      p.process_stream(user, pkg, filename, stream, function(err, stream) {
+        if (err) return callback(err);
+        if (stream) return callback(null, stream);
+        next(); // cb(null, false) causes next plugin to roll
+      });
+    })();
+  }
+
   /**
    * Allow user to access a package.
    */

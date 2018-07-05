@@ -111,6 +111,12 @@ export function allow(auth: IAuth) {
         if (error) {
           next(error);
         } else if (allowed) {
+          // --- Mobiscroll ---
+          // Allow access by version
+          if (typeof allowed === 'string') {
+            req.params.latest = allowed;
+          }
+          // ---
           next();
         } else {
           // last plugin (that's our built-in one) returns either
