@@ -1,4 +1,4 @@
-FROM node:9.5.0-alpine@sha256:50ae5f22356c5a0b0c0ea76d27a453b0baf577c61633aee25cea93dcacec1630
+FROM node:10.3-alpine
 LABEL maintainer="https://github.com/verdaccio/verdaccio"
 
 RUN apk --no-cache add openssl && \
@@ -19,10 +19,10 @@ ADD . $APPDIR
 ENV NODE_ENV=production
 
 RUN npm config set registry http://registry.npmjs.org/ && \
-    yarn global add -s flow-bin@0.52.0 && \
+    yarn global add -s flow-bin@0.69.0 && \
     yarn install --production=false && \
     yarn run lint && \
-    yarn run code:build && \
+    yarn run code:docker-build && \
     yarn run build:webui && \
     yarn run test:unit -- --silent true --coverage false --bail && \
     yarn cache clean && \
