@@ -97,7 +97,7 @@ export default function(route: Router, auth: IAuth, storage: IStorageHandler, co
       req.params.package,
       req.params.filename,
       req.remote_user,
-      storage.get_tarball(req.params.package, req.params.filename),
+      storage.getTarball(req.params.package, req.params.filename),
       function(err, stream) {
         if (err) {
           return res.report_error(err);
