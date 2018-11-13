@@ -2,9 +2,9 @@
 id: plugins
 title: "Plugins"
 ---
-Verdaccio es una aplicación extensible. Puede ser extendida en muchas maneras, tanto con nuevos métodos de autenticación, añadiendo endpoints o usando un almacenamiento personalizado.
+Verdaccio is an plugabble aplication. It can be extended in many ways, either new authentication methods, adding endpoints or using a custom storage.
 
-> Si está interesado en desarrollar su propio plugin, lea la sección [development](development.md).
+> If you are interested to develop your own plugin, read the [development](dev-plugins.md) section.
 
 ## Uso
 
@@ -45,7 +45,7 @@ auth:
 
 #### Múltiples Plugins Auth
 
-Esto es técnicamente posible, el orden de los plugins se vuelve importante, las credenciales serán resueltas en orden.
+This is tecnically possible, making the plugin order important, as the credentials will be resolved in order.
 
 ```yaml
 auth:
@@ -68,6 +68,8 @@ middlewares:
     enabled: true
 ```
 
+> You might follow the [audit middle plugin](https://github.com/verdaccio/verdaccio-audit) as base example.
+
 ### Configuración del Plugin Store (Almacén)
 
 Este es un ejemplo de como instalar un plugin de almacenamiento. Todos los plugins de almacenamiento debe estar definidos en el namespace **store**.
@@ -78,7 +80,7 @@ store:
     limit: 1000
 ```
 
-> Si define un almacenamiento personalizado, la propiedad **storage** en el archivo de configuración será ignorada.
+> If you define a custom store, the property **storage** in the configuration file will be ignored.
 
 ## Plugins heredados
 
@@ -104,7 +106,7 @@ store:
 * [sinopia-ldap](https://www.npmjs.com/package/sinopia-ldap): plugin LDAP auth para sinopia.
 * [sinopia-github-oauth-env](https://www.npmjs.com/package/sinopia-github-oauth-env) plugin de autenticación de Sinopia con flujo web github oauth.
 
-> Todos los plugins de sinopia deben ser compatibles con todas las futuras versiones de verdaccio. De cualquier forma, alentamos a los contribuyentes a migrarlos a la API moderna de verdaccio y usar el prefijo como *verdaccio-xx-name*.
+> All sinopia plugins should be compatible with all future verdaccio versions. Anyhow, we encourage contributors to migrate them to the modern verdaccio API and using the prefix as *verdaccio-xx-name*.
 
 ## Plugins de Verdaccio
 
@@ -113,10 +115,14 @@ store:
 ### Plugins de Autorización
 
 * [verdaccio-bitbucket](https://github.com/idangozlan/verdaccio-bitbucket): plugin de autenticación de Bitbucket para verdaccio.
-* [verdaccio-ldap](https://www.npmjs.com/package/verdaccio-ldap): plugin LDAP auth para verdaccio.
-* [verdaccio-active-directory](https://github.com/nowhammies/verdaccio-activedirectory): plugin de autenticación Active Directory para verdaccio
-* [verdaccio-gitlab](https://github.com/bufferoverflow/verdaccio-gitlab): use la Token de Acceso Personal de GitLab para autenticarse
-* [verdaccio-htpasswd](https://github.com/verdaccio/verdaccio-htpasswd): Auth basado en el plugin del archivo htpasswd (incorporado) para verdaccio
+* [verdaccio-bitbucket-server](https://github.com/oeph/verdaccio-bitbucket-server): Bitbucket Server authentication plugin for verdaccio.
+* [verdaccio-ldap](https://www.npmjs.com/package/verdaccio-ldap): LDAP auth plugin for verdaccio.
+* [verdaccio-active-directory](https://github.com/nowhammies/verdaccio-activedirectory): Active Directory authentication plugin for verdaccio
+* [verdaccio-gitlab](https://github.com/bufferoverflow/verdaccio-gitlab): use GitLab Personal Access Token to authenticate
+* [verdaccio-gitlab-ci](https://github.com/lab360-ch/verdaccio-gitlab-ci): Enable GitLab CI to authenticate against verdaccio.
+* [verdaccio-htpasswd](https://github.com/verdaccio/verdaccio-htpasswd): Auth based on htpasswd file plugin (built-in) for verdaccio
+* [verdaccio-github-oauth](https://github.com/aroundus-inc/verdaccio-github-oauth): Github oauth authentication plugin for verdaccio.
+* [verdaccio-github-oauth-ui](https://github.com/n4bb12/verdaccio-github-oauth-ui): GitHub OAuth plugin for the verdaccio login button.
 
 ### Plugins de Middleware
 
@@ -134,4 +140,4 @@ store:
 
 ## Advertencias
 
-> No todos estos plugins han sido probados continuamente, algunos pueden no funcionar del todo. Por favor, si encontró algún problema siéntase con la libertad de notificar al dueño de cada plugin.
+> Not all these plugins are been tested continuously, some of them might not work at all. Please if you found any issue feel free to notify the owner of each plugin.

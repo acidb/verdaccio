@@ -56,26 +56,31 @@ El último argumento define cual imagen se usa. En la linea de abajo se descarga
 
 Si has [construido una imagen localmente](#build-your-own-docker-image) usa `verdaccio` como el último argumento.
 
-You can use `-v` to bind mount `conf` and `storage` to the hosts filesystem:
+Puede usar `-v` para montar `conf`, `storage` and `plugins` a archivos de sistema alojados:
 
 ```bash
 V_PATH=/path/for/verdaccio; docker run -it --rm --name verdaccio -p 4873:4873 \
   -v $V_PATH/conf:/verdaccio/conf \
   -v $V_PATH/storage:/verdaccio/storage \
+  -v $V_PATH/plugins:/verdaccio/plugins \
   verdaccio/verdaccio
 ```
 
-> Note: Verdaccio runs as a non-root user (uid=100, gid=101) inside the container, if you use bind mount to override default, you need to make sure the mount directory is assigned to the right user. En el ejemplo de arriba, necesitas ejecutar `sudo chown -R 100:101 /opt/verdaccio` de lo contrario, obtendrás errores de permiso en tiempo de ejecución. [Usar el volumen docker](https://docs.docker.com/storage/volumes/) es recomendado antes que usar el montaje de unión.
+> Note: Verdaccio se ejecuta como usuario non-root (uid=100, gid=101) dentro del contenedor, si usas montaje para anular el por defecto, necesitas asegurarte que el directorio a montar es asignado al usuario correcto. En el ejemplo de arriba, necesitas ejecutar `sudo chown -R 100:101 /opt/verdaccio` de lo contrario, obtendrás errores de permiso en tiempo de ejecución. [Usar el volumen docker](https://docs.docker.com/storage/volumes/) es recomendado antes que usar el montaje de unión.
 
-### Usar un puerto personalizado con Docker
+### Extensiones
 
-Cualquier `host:port` configurado en `conf/config.yaml` bajo `listen` es ignorado al usar docker.
+Extensiones pueden ser instaladas en un directorio separado y montado usando Docker o Kubernetes, de todos modos debes asegurarte que construyes extensiones con dependencias nativas usando como base la imagen de Dockerfile Verdaccio.
 
-Si quieres alcanzar la instancia de docker de verdaccio bajo un puerto diferente, digamos `5000` en tu comando `docker run` remplaza `-p 4873:4873` con `-p 5000:4873`.
+### Configuración de Docker y puerto de escucha por defecto
 
-En caso de que necesites especificar cuál puerto escuchar **en el contenedor docker**, desde la versión 2.?.? puedes hacerlo al proveer argumentos adicionales a `docker run`: `--env PORT=5000` Esto cambia cual puerto el contenedor docker muestra y el puerto que verdaccio escucha.
+Cualquier `host:port` configurado en `conf/config.yaml` bajo `listen` es ignorado cuando se usa Docker.
 
-Por supuesto que los número que le das al parámetro `-p` necesitan coincidir, así que asumiendo que quieres que todos sean iguales, esto es lo que pudieses copiar, pegar y adoptar:
+Si quieres contactar la instancia de verdaccio en Docker bajo un puerto diferente, digamos `5000` en su comando `docker run` reemplace `-p 4873:4873` con `-p 5000:4873`.
+
+In case you need to specify which port to listen to **in the docker container**, since version 2.?.? you can do so by providing additional arguments to `docker run`: `--env PORT=5000` This changes which port the docker container exposes and the port verdaccio listens to.
+
+Por supuesto los numeros a definir con parametros `-p` necesitan coincidir, así que, suponiendo que quieras que todos sean iguales, esto es lo que podrías copiar, pegar y adoptar:
 
 ```bash
 PORT=5000; docker run -it --rm --name verdaccio \
@@ -83,9 +88,9 @@ PORT=5000; docker run -it --rm --name verdaccio \
   verdaccio/verdaccio
 ```
 
-### Configura Docker con HTTPS
+### Usando HTTPS con Docker
 
-Puedes configurar el protocolo que verdaccio va a escuchar, similar a la configuración de puerto. Tienes que sobre escribir el valor por defecto ("http") de la variable del entorno `PROTOCOL` a "https", luego de haber especificado los certificados en config.yaml.
+Puedes configurar el protocolo que verdaccio va a escuchar, similarmente que con la configuración del puerto. Tienes que anular el valor por defecto ("http") de la variable de ambiente a "https" de `PROTOCOL`, despues debe especificar los certificados en el config.yaml.
 
 ```bash
 PROTOCOL=https; docker run -it --rm --name verdaccio \
@@ -102,9 +107,9 @@ PROTOCOL=https; docker run -it --rm --name verdaccio \
 $ docker-compose up --build
 ```
 
-Puedes configurar el puerto a usar (tanto para el contenedor como para el cliente) al anteponer el comando anterior con `PORT=5000`.
+Puedes definir el puerto a usar (para ambos el contenedor y el huesped) definiendo con un prefijo con el comando de arriba con `PORT=5000`.
 
-Docker generará un volumen con nombre en el cual se almacenan datos de aplicación persistente. Puedes usar `docker inspect` ó `docker volume inspect` para revelar la ubicación física del volumen y editar la configuración, tal como:
+Docker generará un volumen con nombre que persistira con los datos de la aplicación. Puedes usar `docker inspect` o `docker volume inspect` para revelar la ubicación física del volumen y editar la configuración, de la siguiente manera:
 
     $ docker volume inspect verdaccio_verdaccio
     [
@@ -125,25 +130,25 @@ Docker generará un volumen con nombre en el cual se almacenan datos de aplicaci
 docker build -t verdaccio .
 ```
 
-Existe también un script npm para construir la imagen docker, para que también puedas hacer:
+Existe tambien un comando npm para construir la imagen de Docker, tambien puede hacerlo así:
 
 ```bash
 npm run build:docker
 ```
 
-Nota: La primera construcción toma algunos minutos en llevarse a cabo porque necesita ejecutar el `npm install`, y tomará el mismo tiempo cada vez que cambies cualquier archivo que no esté listado en `.dockerignore`.
+Note: El primer build podria tomar algunos minutos para construir porque necesita ejecutar `npm install`, y podría tardar mas cuando los archivos no estan listados en `.dockerignore`.
 
-Si quieres usar la imagen docker en un rpi o en un dispositivo compatible, también existe un dockerfile disponible. Para construir la imagen docker para raspberry pi ejecute:
+If you want to use the docker image on a rpi or a compatible device there is also a dockerfile available. To build the docker image for raspberry pi execute:
 
 ```bash
 npm run build:docker:rpi
 ```
 
-Por favor note que para cualquier comando docker de arriba, necesitas tener un docker instalado en tu máquina y el docker ejecutable debe estar disponible en tu `$PATH`.
+Please note that for any of the above docker commands you need to have docker installed on your machine and the docker executable should be available on your `$PATH`.
 
 ## Ejemplos con Docker
 
-Existe un repositorio separado que aloja múltiples configuraciones para componer imágenes Docker con `verdaccio`, por ejemplo, como proxy inverso:
+Existe un repositorio separado que aloja multiples configuraciones de imagenes Docker con `verdaccio`, por ejemplo, un servidor proxy a la inversa:
 
 <https://github.com/verdaccio/docker-examples>
 

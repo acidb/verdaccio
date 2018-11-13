@@ -1,14 +1,14 @@
 ---
 id: configuration
-title: "Configuration File"
+title: "Fichier de configuration"
 ---
-This file is the cornerstone of verdaccio where you can modify the default behaviour, enable plugins and extend features.
+Ce fichier est le pilier de verdaccio où vous pouvez modifier le comportement par défaut, activer les plugins et étendre les fonctionnalités.
 
-A default configuration file is created the very first time you run `verdaccio`.
+Un fichier de configuration par défaut est créé la première fois que vous exécutez `verdaccio`.
 
-## Default Configuration
+## Configuration par défaut
 
-The default configuration has support for **scoped** packages and allow any user to access all packages but only **authenticated users to publish**.
+La configuration par défaut a un support pour les packs **portée(scoped)** et permet à tout utilisateur à accéder à tous les packs, mais seuls **les utilisateurs authentifiés qui peuvent publier**.
 
 ```yaml
 storage: ./storage
@@ -31,19 +31,27 @@ logs:
 
 ## Sections
 
-The following sections explain what means each property and the different options.
+Les sections suivantes expliquent ce que signifie chaque propriété et les différentes options.
 
-### Storage
+### Stockage
 
-Is the location of the default storage. **Verdaccio is by default based on local file system**.
+C'est le chemin de stockage par défaut. **Verdaccio est basé par défaut sur le fichier système local**.
 
 ```yaml
 storage: ./storage
 ```
 
+### Plugins
+
+C'est le chemin du répertoire des plugins. Utile pour les déploiements basées sur Docker/Kubernetes.
+
+```yaml
+plugins: ./plugins
+```
+
 ### Authentification
 
-The authentification set up is done here, the default auth is based on `htpasswd` and is built-in. You can modify this behaviour via [plugins](plugins.md). For more information about this section read the [auth page](auth.md).
+Le paramètre d'authentification est défini ici, l'authentification par défaut est basée sur `htpasswd` et est intégrée. Vous pouvez modifier ce comportement via les[plugins](plugins.md). Pour plus d'informations sur cette section, consultez la [ page d'authentification ](auth.md).
 
 ```yaml
 auth:
@@ -52,20 +60,21 @@ auth:
     max_users: 1000
 ```
 
-### Web UI
+### Interface Web
 
-This properties allow you to modify the look and feel of the web UI. For more information about this section read the [web ui page](web.md).
+Cette propriété vous permet de modifier les fonctionnalités de l'interface utilisateur Web. Pour plus d'informations sur cette section, consultez la [ page de l'interface utilisateur Web ](web.md).
 
 ```yaml
 web:
   enable: true
   title: Verdaccio
   logo: logo.png
+  scope:
 ```
 
 ### Uplinks
 
-Uplinks is the ability of the system to fetch packages from remote registries when those packages are not available locally. For more information about this section read the [uplinks page](uplinks.md).
+Uplinks est la capacité du système à récupérer des paquets à partir de registres distants lorsque ces paquets ne sont pas disponibles localement. Pour plus d'informations sur cette section, lisez [uplinks page](uplinks.md).
 
 ```yaml
 uplinks:
@@ -73,9 +82,9 @@ uplinks:
     url: https://registry.npmjs.org/
 ```
 
-### Packages
+### Paquets
 
-Packages allow the user how the packages are gonna be accessed. For more information about this section read the [packages page](packages.md).
+Paquets permet à l'utilisateur de contrôler comment les paquets sont rendus accessibles. Pour plus d'informations sur cette section, consultez la [ page des paquets ](packages.md).
 
 ```yaml
 packages:
@@ -85,11 +94,11 @@ packages:
     proxy: npmjs
 ```
 
-## Advanced Settings
+## Paramètres avancés
 
-### Offline Publish
+### Publication hors ligne
 
-By default `verdaccio` does not allow to publish when the client is offline, that behavior can be overridden set it in to *true*.
+Par défaut `verdaccio` n'autorise pas le client à publier lorsqu'il est hors ligne, ce comportement peut être remplacé en définissant cette option *Vraie*.
 
 ```yaml
 publish:
@@ -98,7 +107,7 @@ publish:
 
 <small>Since: <code>verdaccio@2.3.6</code> due <a href="https://github.com/verdaccio/verdaccio/pull/223">#223</a></small>
 
-### URL Prefix
+### Préfixe de l'URL
 
 ```yaml
 url_prefix: https://dev.company.local/verdaccio/
@@ -106,17 +115,17 @@ url_prefix: https://dev.company.local/verdaccio/
 
 Since: `verdaccio@2.3.6` due [#197](https://github.com/verdaccio/verdaccio/pull/197)
 
-### Max Body Size
+### Taille maximale du corps
 
-By default the maximum body size for a JSON document is `10mb`, if you run in errors as `"request entity too large"` you may increase this value.
+Par défaut, la taille maximale du corps d'un document JSON est `10mb`. Si vous rencontrez des erreurs telles que ` "entité de demande trop grande" `, vous pouvez augmenter cette valeur.
 
 ```yaml
 max_body_size: 10mb
 ```
 
-### Listen Port
+### Port d’écoute
 
-`verdaccio` runs by default in the port `4873`. Change the port can be done via [cli](cli.md) or in the configuration file, the following options are valid.
+`verdaccio` s’exécute par défaut dans le port `4873`. La modification du port peut être faite via [cli](cli.md) ou dans le fichier de configuration, les options suivantes sont valides.
 
 ```yaml
 listen:
@@ -130,7 +139,7 @@ listen:
 
 ### HTTPS
 
-To enable `https` in `verdaccio` enough with set your `listen` domain with the protocol *https://*. For more information about this section read the [ssl page](ssl.md).
+Pour activer `https` dans `verdaccio` il suffit de définir le drapeau `Ecoute` avec le protocole *https://*. Pour plus d’informations sur cette section, lisez [ssl page](ssl.md).
 
 ```yaml
 https:
@@ -141,11 +150,11 @@ https:
 
 ### Proxy
 
-Proxies are special-purpose HTTP servers designed to transfer data from remote servers to local clients.
+Les Proxy sont des serveurs HTTP spéciaux conçus pour transférer des données de serveurs distants vers des clients locaux.
 
 #### http_proxy and https_proxy
 
-If you have a proxy in your network you can set a `X-Forwarded-For` header using the following properties.
+Si vous avez un proxy sur votre réseau, vous pouvez définir un en-tête `X-Forwarded-For` à l'aide des propriétés suivantes.
 
 ```yaml
 http_proxy: http://something.local/
@@ -154,16 +163,15 @@ https_proxy: https://something.local/
 
 #### no_proxy
 
-This variable should contain a comma-separated list of domain extensions proxy should not be used for.
+Cette variable doit contenir une liste d'extensions de domaine séparées par des virgules pour lesquelles le proxy ne doit pas être utilisé.
 
 ```yaml
-http_proxy: http://something.local/
-https_proxy: https://something.local/
+no_proxy: localhost,127.0.0.1
 ```
 
 ### Notifications
 
-Enable notifications to three party tools is fairly easy via web hooks. For more information about this section read the [notifications page](notifications.md).
+L'activation des notifications d'outils tiers est assez facile via des webhooks. Pour plus d'informations sur cette section, consultez la [ page de notification ](notifications.md).
 
 ```yaml
 notify:
@@ -173,13 +181,15 @@ notify:
   content: '{"color":"green","message":"New package published: * {{ name }}*","notify":true,"message_format":"text"}'
 ```
 
-> For more detailed configuration settings, please [check the source code](https://github.com/verdaccio/verdaccio/tree/master/conf).
+> Pour plus de détails sur les paramètres de configuration, veuillez [ vérifier le code source ](https://github.com/verdaccio/verdaccio/tree/master/conf).
 
 ### Audit
 
-`npm audit` is a new command released with [npm 6.x](https://github.com/npm/npm/releases/tag/v6.1.0). Verdaccio includes a built-in middleware plugin to handle this command.
+<small>Depuis : <code>verdaccio@3.0.0</code></small>
 
-> If you have a new installation it comes by default, otherwise you need to add the following props to your config file
+` npm audit ` est une nouvelle commande émise avec[ npm 6.x ](https://github.com/npm/npm/releases/tag/v6.1.0). Verdaccio inclut un plugin middleware intégré pour gérer cette commande.
+
+> Si vous avez une nouvelle installation, elle est fournie par défaut. Sinon, vous devez ajouter les propriétés suivantes à votre fichier de configuration
 
 ```yaml
 middlewares:

@@ -2,15 +2,15 @@
 id: installation
 title: "Installation"
 ---
-Verdaccio is a multiplatform web application. To install it, you need a few prerequisites.
+Verdaccio est une application Web multi-plateforme. Quelques conditions préalables sont requises pour son installation.
 
-#### Prerequisites
+#### Conditions préalables
 
-1. Node higher than 
-    - For version `verdaccio@2.x` Node `v4.6.1` is the minimum supported version.
-    - For version `verdaccio@latest` Node `6.12.0` is the minimum supported version.
-2. npm `>=3.x` or `yarn`
-3. The web interface supports the `Chrome, Firefox, Edge, and IE9` browsers.
+1. Nœud supérieur à 
+    - Pour la version `verdaccio@2.x` Noeud `v4.6.1` est la version minimale prise en charge.
+    - Pour la version `verdaccio@latest` Noeud `6.12.0` est la version minimale prise en charge.
+2. npm `>=3.x` ou `yarn`
+3. L'interface web prend en charge les navigateurs `Chrome, Firefox, Edge, et IE9`.
 
 ## Installing the CLI
 
@@ -40,10 +40,14 @@ warn --- config file  - /home/.config/verdaccio/config.yaml
 warn --- http address - http://localhost:4873/ - verdaccio/3.0.1
 ```
 
-![](https://cdn-images-1.medium.com/max/720/1*jDHnZ7_68u5s1lFK2cygnA.gif)
-
 For more information about the CLI, please [read the cli section](cli.md).
 
 ## Docker Image
 
 `verdaccio` has an official docker image you can use, and in most cases, the default configuration is good enough. For more information about how to install the official image, [read the docker section](docker.md).
+
+## Cloudron
+
+`verdaccio` is also available as a 1-click install on [Cloudron](https://cloudron.io)
+
+[![Install](https://cloudron.io/img/button.svg)](https://cloudron.io/button.html?app=org.eggertsson.verdaccio)

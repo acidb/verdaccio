@@ -1,6 +1,6 @@
 ---
 id: windows
-title: "Installing As a Windows Service"
+title: "Als Windows-Dienst installieren"
 ---
 Loosely based upon the instructions found [here](http://asysadmin.tumblr.com/post/32941224574/running-nginx-on-windows-as-a-service). I crafted the following and it provided me with a fully working verdaccio service installation:
 
@@ -26,7 +26,7 @@ ALTERNATIVE METHOD: (WinSW package was missing when I tried to download it)
     
     * Path: `node`
     * Startup directory: `c:\verdaccio`
-    * Arguments: `c:\verdaccio\node_modules\verdaccio\src\lib\cli.js -c c:\verdaccio\config.yaml`
+    * Arguments: `c:\verdaccio\node_modules\verdaccio\build\lib\cli.js -c c:\verdaccio\config.yaml`
     
     You can adjust other service settings under other tabs as desired. When you are done, click Install service button
     

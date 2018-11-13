@@ -3,8 +3,8 @@
  */
 import React from 'react';
 import { shallow } from 'enzyme';
-import PackageDetail from '../../../../src/webui/src/components/PackageDetail/index';
-import Readme from '../../../../src/webui/src/components/Readme/index';
+import PackageDetail from '../../../../src/webui/components/PackageDetail/index';
+import Readme from '../../../../src/webui/components/Readme/index';
 import {WEB_TITLE} from '../../../../src/lib/constants';
 
 console.error = jest.fn();
@@ -18,7 +18,7 @@ describe('<PackageDetail /> component', () => {
   it('should load the component', () => {
     const props = {
       readMe: 'Test readme',
-      package: WEB_TITLE
+      packageName: WEB_TITLE
     };
     const wrapper = shallow(<PackageDetail {...props} />);
 

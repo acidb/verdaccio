@@ -34,11 +34,11 @@
       }], "flow", "react"],
       "plugins": [
         "transform-class-properties",
-        "transform-object-rest-spread"
+        "transform-object-rest-spread",
+        "babel-plugin-dynamic-import-node"
       ]
     },
     "testOldEnv": {
-      /** FIXME: for an issue on jest env we need to use es2015-node4 **/
       "presets": [ "es2015-node4", "flow"],
       "plugins": [
         "transform-class-properties",

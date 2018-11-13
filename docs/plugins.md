@@ -3,9 +3,9 @@ id: plugins
 title: "Plugins"
 ---
 
-Verdaccio is an plugabble aplication. It can be extended in many ways, either new authentication methods, adding 
+Verdaccio is an plugabble aplication. It can be extended in many ways, either new authentication methods, adding
 endpoints or using a custom storage.
- 
+
 > If you are interested to develop your own plugin, read the [development](dev-plugins.md) section.
 
 ## Usage
@@ -26,8 +26,8 @@ $> npm install --global sinopia-memory
 Open the `config.yaml` file and update the `auth` section as follows:
 
 The default configuration looks like this, due we use a build-in `htpasswd` plugin by default that you can disable just commenting out the following lines.
- 
- 
+
+
 ### Auth Plugin Configuration
 
 ```yaml
@@ -48,7 +48,7 @@ auth:
 
 #### Multiple Auth plugins
 
-This is tecnically possible, the plugins order becames important, the the credentials will resolved in order.
+This is tecnically possible, making the plugin order important, as the credentials will be resolved in order.
 
 ```yaml
 auth:
@@ -70,6 +70,8 @@ middlewares:
   audit:
     enabled: true
 ```
+
+> You might follow the [audit middle plugin](https://github.com/verdaccio/verdaccio-audit) as base example.
 
 ### Store Plugin Configuration
 
@@ -117,10 +119,14 @@ modern verdaccio API and using the prefix as *verdaccio-xx-name*.
 ### Authorization Plugins
 
 * [verdaccio-bitbucket](https://github.com/idangozlan/verdaccio-bitbucket): Bitbucket authentication plugin for verdaccio.
+* [verdaccio-bitbucket-server](https://github.com/oeph/verdaccio-bitbucket-server): Bitbucket Server authentication plugin for verdaccio.
 * [verdaccio-ldap](https://www.npmjs.com/package/verdaccio-ldap): LDAP auth plugin for verdaccio.
 * [verdaccio-active-directory](https://github.com/nowhammies/verdaccio-activedirectory): Active Directory authentication plugin for verdaccio
 * [verdaccio-gitlab](https://github.com/bufferoverflow/verdaccio-gitlab): use GitLab Personal Access Token to authenticate
+* [verdaccio-gitlab-ci](https://github.com/lab360-ch/verdaccio-gitlab-ci): Enable GitLab CI to authenticate against verdaccio.
 * [verdaccio-htpasswd](https://github.com/verdaccio/verdaccio-htpasswd): Auth based on htpasswd file plugin (built-in) for verdaccio
+* [verdaccio-github-oauth](https://github.com/aroundus-inc/verdaccio-github-oauth): Github oauth authentication plugin for verdaccio.
+* [verdaccio-github-oauth-ui](https://github.com/n4bb12/verdaccio-github-oauth-ui): GitHub OAuth plugin for the verdaccio login button.
 
 ### Middleware Plugins
 
@@ -138,5 +144,5 @@ modern verdaccio API and using the prefix as *verdaccio-xx-name*.
 
 ## Caveats
 
-> Not all these plugins are been tested continuously, some of them might not work at all. 
+> Not all these plugins are been tested continuously, some of them might not work at all.
 Please if you found any issue feel free to notify the owner of each plugin.

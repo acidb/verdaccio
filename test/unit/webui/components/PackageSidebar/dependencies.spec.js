@@ -3,22 +3,17 @@
  */
 
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import Dependencies from '../../../../../src/webui/src/components/PackageSidebar/modules/Dependencies/index';
-import { packageMeta } from '../store/packageMeta';
+import { shallow } from 'enzyme';
+import Dependencies, {
+  NO_DEPENDENCIES,
+  DEP_ITEM_CLASS
+} from '../../../../../src/webui/components/PackageSidebar/modules/Dependencies/index';
+import ModuleContentPlaceholder from '../../../../../src/webui/components/PackageSidebar/ModuleContentPlaceholder';
 
-console.error = jest.fn();
 
 describe('<PackageSidebar /> : <Dependencies />', () => {
-  it('should throw error for the required props', () => {
-    mount(<Dependencies />);
-    expect(console.error).toBeCalled();
-  });
-
-  it('getter: should get dependencies from package meta', () => {
-    const wrapper = mount(<Dependencies packageMeta={packageMeta} />);
-    const dependencies = wrapper.instance().dependencies;
-    const result = {
+  test('should load dependencies', () => {
+    const dependencies = {
       '@verdaccio/file-locking': '0.0.3',
       '@verdaccio/streams': '0.0.2',
       JSONStream: '^1.1.1',
@@ -50,11 +45,16 @@ describe('<PackageSidebar /> : <Dependencies />', () => {
       semver: '^5.1.0',
       'unix-crypt-td-js': '^1.0.0'
     };
-    expect(dependencies).toEqual(result);
+    const wrapper = shallow(<Dependencies dependencies={dependencies} />);
+
+    expect(wrapper.find(`.${DEP_ITEM_CLASS}`)).toHaveLength(Object.keys(dependencies).length);
+    expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it('should load the package and match snapshot', () => {
-    const wrapper = shallow(<Dependencies packageMeta={packageMeta} />);
+  test('should load the package without dependencies', () => {
+    const wrapper = shallow(<Dependencies />);
+
+    expect(wrapper.find(ModuleContentPlaceholder).props().text).toBe(NO_DEPENDENCIES);
     expect(wrapper.html()).toMatchSnapshot();
   });
 });

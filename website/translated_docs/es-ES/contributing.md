@@ -8,8 +8,7 @@ First of all saltar en un código desconocido no es tarea fácil, pero estamos a
 
 Si estas deseando por hacer preguntas, nosotros tenemos dos canales para discusiones:
 
-* [Canal público en Gitter](https://gitter.im/verdaccio/)
-* [Canal Slack para Colaboradores](https://verdaccio-npm.slack.com)(desafortunadamente solo se puede entrar bajo petición por correo electrónico, si estas interesado (es en ingles) puedes preguntar en Gitter para ser incluido.
+* [Public Discord channel](http://chat.verdaccio.org/)
 
 ## Empezando
 
@@ -31,7 +30,7 @@ Recientemente hemos migrado a tecnologías mas modernas como `React`y `element-r
 
 ### Me siento más cómodo mejorado el stack
 
-Por su puesto, estaríamos muy felices que nos ayudaras a mejorar el stack, puedes actualizar dependencias como `eslint`, `stylelint` o `webpack`. O simplemente podrías mejorar la configuración de ` webpack`, sería genial. Cualquier sugerencia es bienvenida. Ademas si quieres mejorar tu experiencia con**Yeoman** podrías ayudarnos con [verdaccio generator](https://github.com/verdaccio/generator-verdaccio-plugin).
+Por su puesto, estaríamos muy felices que nos ayudaras a mejorar el stack, puedes actualizar dependencias como `eslint`, `stylelint` o `webpack`. You might merely improve the `webpack` configuration would be great. Cualquier sugerencia es bienvenida. Ademas si quieres mejorar tu experiencia con**Yeoman** podrías ayudarnos con [verdaccio generator](https://github.com/verdaccio/generator-verdaccio-plugin).
 
 Aquí algunas ideas:
 

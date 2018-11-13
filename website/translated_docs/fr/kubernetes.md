@@ -51,7 +51,7 @@ You can customize the Verdaccio configuration using a Kubernetes *configMap*.
 Copy the [existing configuration](https://github.com/verdaccio/verdaccio/blob/master/conf/full.yaml) and adapt it for your use case:
 
 ```bash
-wget https://github.com/verdaccio/verdaccio/blob/master/conf/full.yaml -O config.yaml
+wget https://raw.githubusercontent.com/verdaccio/verdaccio/master/conf/full.yaml -O config.yaml
 ```
 
 **Note:** Make sure you are using the right path for the storage that is used for persistency:
@@ -81,6 +81,6 @@ helm install --name npm --set customConfigMap=verdaccio-config stable/verdaccio
 
 ## Rancher Support
 
-[Rancher](http://rancher.com/) is a complete container management platform that makes managing and using containers in production really easy.
+[Rancher](http://rancher.com/) est une plate-forme complète de gestion de conteneurs facilitant la gestion et l'utilisation des conteneurs en production.
 
 * [verdaccio-rancher](https://github.com/lgaticaq/verdaccio-rancher)

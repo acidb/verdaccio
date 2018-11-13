@@ -1,11 +1,7 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
 
-/* List of projects/orgs using your project for the users page */
+const {loadYaml} = require('./utils');
+
+const team = loadYaml("./data/team.yml");
 const users = [
   {
     caption: "Filiosoft",
@@ -48,34 +44,44 @@ const users = [
     infoLink: "https://strapi.io/",
     fbOpenSource: false,
     pinned: true,
-  }
+  },
+  {
+    caption: "Innovaccer",
+    image: "/img/users/innovaccer.png",
+    infoLink: "http://innovaccer.com/",
+    fbOpenSource: false,
+    pinned: true,
+  },
 ];
 
 const siteConfig = {
   title: 'Verdaccio' /* title for your website */,
-  tagline: 'Verdaccio · A lightweight private npm proxy registry',
-  url: 'http://www.verdaccio.org' /* your website url */,
+  tagline: 'A lightweight private npm proxy registry',
+  url: 'https://verdaccio.org' /* your website url */,
   organizationName: 'verdaccio',
-  cname: 'www.verdaccio.org',
+  cname: 'verdaccio.org',
   noIndex: false,
   baseUrl: '/' /* base url for your project */,
   projectName: 'verdaccio',
   headerLinks: [
     { doc: 'installation', label: 'Docs'},
-    { page: 'help', label: 'Help'},
     { href: "https://medium.com/verdaccio", label: 'Blog'},
-    { href: "https://github.com/verdaccio", label: "GitHub" }
+    { page: 'help', label: 'Help'},
+    { href: "https://github.com/verdaccio", label: "GitHub" },
+    { search: true },
+    { page: 'team', label: 'Team'},
+    { href: "https://opencollective.com/verdaccio", label: "Donate" },
   ],
   users,
-  headerIcon: 'img/verdaccio-tiny.png',
-  footerIcon: 'img/verdaccio-blackwhite.png',
-  favicon: 'img/favicon.ico',
+  team,
+  headerIcon: 'img/logo/symbol/svg/verdaccio-tiny.svg',
+  footerIcon: 'img/logo/symbol/svg/verdaccio-blackwhite.svg',
+  favicon: 'img/favicon/favicon.ico',
   colors: {
     primaryColor: '#4B5E40',
     secondaryColor: '#205C3B',
   },
   translationRecruitingLink: 'https://crowdin.com/project/verdaccio',
-  // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
   copyright:
     'Copyright © ' + new Date().getFullYear() + ' Verdaccio community',
   // organizationName: 'deltice', // or set an env variable ORGANIZATION_NAME
@@ -86,7 +92,7 @@ const siteConfig = {
   },
   algolia: {
     apiKey: 'a8b4d117e513cd8d71d6a95e3d9d4a91',
-    indexName: 'verdaccio',
+    indexName: 'verdaccio'
   },
   gaTrackingId: 'UA-2527438-21',
   twitter: true,
@@ -98,7 +104,6 @@ const siteConfig = {
   stylesheets: [
       '/css/code-blocks-buttons.css',
   ],
-  // You may provide arbitrary config keys to be used as needed by your template.
   repoUrl: 'https://github.com/verdaccio/verdaccio',
   cleanUrl: true,
   scrollToTop: true,

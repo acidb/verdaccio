@@ -105,10 +105,10 @@ class ProxyStorage implements IProxy {
 
       process.nextTick(function() {
         if (cb) {
-          cb(ErrorCode.getInternalError('uplink is offline'));
+          cb(ErrorCode.getInternalError(API_ERROR.UPLINK_OFFLINE));
         }
         // $FlowFixMe
-        streamRead.emit('error', ErrorCode.getInternalError('uplink is offline'));
+        streamRead.emit('error', ErrorCode.getInternalError(API_ERROR.UPLINK_OFFLINE));
       });
       // $FlowFixMe
       streamRead._read = function() {};
@@ -181,7 +181,7 @@ class ProxyStorage implements IProxy {
           ? ', error: @{!error}'
           : ', bytes: @{bytes.in}/@{bytes.out}';
         self.logger.warn({
-          err: err,
+          err: err || undefined, // if error is null/false change this to undefined so it wont log
           request: {method: method, url: uri},
           level: 35, // http
           status: res != null ? res.statusCode : 'ERR',
@@ -430,7 +430,7 @@ class ProxyStorage implements IProxy {
     let current_length = 0;
     let expected_length;
 
-    stream.abort = () => {};
+    (stream: any).abort = () => {};
     const readStream = this.request({
       uri_full: url,
       encoding: null,

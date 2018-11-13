@@ -23,6 +23,9 @@
   <a href="https://www.npmjs.org/package/verdaccio"><img alt="npm Downloads" src="http://img.shields.io/npm/dm/verdaccio.svg"></a>
   <a href="https://hub.docker.com/r/verdaccio/verdaccio/"><img alt="npm Downloads" src="https://img.shields.io/docker/pulls/verdaccio/verdaccio.svg?maxAge=43200"></a>
   <a href="https://www.browserstack.com/automate/public-build/am8rVDJ1V1BSbW90aE4xUnZsbnNUOFVuVS9ZRmJWL3NWcjkzRUxycHF3TT0tLUh5aTBiY2VzT1A1NDRWdHg2L0FQT3c9PQ==--0e9064ebcb01bfebb9976a543500b0396c0bfcae%"><img src='https://www.browserstack.com/automate/badge.svg?badge_key=am8rVDJ1V1BSbW90aE4xUnZsbnNUOFVuVS9ZRmJWL3NWcjkzRUxycHF3TT0tLUh5aTBiY2VzT1A1NDRWdHg2L0FQT3c9PQ==--0e9064ebcb01bfebb9976a543500b0396c0bfcae%'/></a>
+  <a href="https://discord.gg/AwXRqPD"
+  ><img alt="discord" src="https://img.shields.io/badge/Discord-%23questions%20%23general-blue.svg"/>
+  </a>
 </div>
 <div align="center">
   <p align="center"><img src="https://github.com/verdaccio/verdaccio/blob/master/assets/gif/verdaccio_big_30.gif?raw=true"></p>
@@ -61,8 +64,8 @@ Verdaccio is a simple, **zero-config-required local private npm registry**. No n
 ### Cache npmjs.org registry
 
    If you have more than one server you want to install packages on, you might want to use this to decrease latency
-   (presumably "slow" npmjs.org will be connected to only once per package/version) and provide limited failover (if npmjs.org is down, we might still find something useful in the cache) or avoid issues like *[How one developer just broke Node, Babel and thousands of projects in 11 lines of JavaScript](https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/)*, *[Many packages suddenly disappeared](https://github.com/npm/registry/issues/255?source=techstories.org)* or *[Registry returns 404 for a package I have installed before](https://github.com/npm/registry/issues/329)*.
-   
+   (presumably "slow" npmjs.org will be connected to only once per package/version) and provide limited failover (if npmjs.org is down, we might still find something useful in the cache) or avoid issues like *[How one developer just broke Node, Babel and thousands of projects in 11 lines of JavaScript](https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/)*, *[Many packages suddenly disappeared](https://github.com/npm/registry-issue-archive/issues/255)* or *[Registry returns 404 for a package I have installed before](https://github.com/npm/registry-issue-archive/issues/329)*.
+
 ### Link multiple registries
 
 If you use multiples registries in your organization and need to fetch packages from multiple sources in one single project you might take advance of the uplinks feature with Verdaccio, chaining multiple registries and fetching from one single endpoint.
@@ -113,7 +116,7 @@ This will prompt you for user credentials which will be saved on the `verdaccio`
 
 <h2 align="center"> Docker</h2>
 
-Below are the most commony needed informations,
+Below are the most commonly needed informations,
 every aspect of Docker and verdaccio is [documented separately](https://www.verdaccio.org/docs/en/docker.html)
 
 
@@ -202,7 +205,7 @@ If you have any issue you can try the following options, do no desist to ask or 
 * [Most common questions](https://github.com/verdaccio/verdaccio/issues?utf8=%E2%9C%93&q=is%3Aissue%20label%3Aquestion%20)
 * [Reporting a bug](https://github.com/verdaccio/verdaccio/blob/master/CONTRIBUTING.md#reporting-a-bug)
 * [Running discussions](https://github.com/verdaccio/verdaccio/issues?q=is%3Aissue+is%3Aopen+label%3Adiscuss)
-* [Chat Room](https://gitter.im/verdaccio/)
+* [Chat Room](http://chat.verdaccio.org/)
 * [Logos](https://github.com/verdaccio/verdaccio/tree/master/assets)
 
 

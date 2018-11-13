@@ -27,7 +27,7 @@ const prodConf = {
   mode: 'production',
 
   entry: {
-    main: ['babel-polyfill', 'whatwg-fetch', `${env.SRC_ROOT}/webui/src/index.js`],
+    main: ['babel-polyfill', 'whatwg-fetch', `${env.SRC_ROOT}/webui/index.js`],
   },
 
   module: {
@@ -45,6 +45,7 @@ const prodConf = {
     }),
     new HTMLWebpackPlugin({
       title: 'ToReplaceByTitle',
+      scope: 'ToReplaceByScope',
       filename: 'index.html',
       favicon: `${env.SRC_ROOT}/webui/template/favicon.ico`,
       verdaccioURL: 'ToReplaceByVerdaccio',

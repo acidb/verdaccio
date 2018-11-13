@@ -86,7 +86,7 @@ describe('/ (Verdaccio Page)', () => {
     it('should click on sign in button', async () => {
       const signInButton = await page.$('header button');
       await signInButton.click();
-      const signInDialog = await page.$('header .el-dialog__wrapper');
+      const signInDialog = await page.$('.login-dialog .el-dialog__wrapper');
 
       expect(signInDialog).not.toBeNull();
     })
@@ -97,7 +97,7 @@ describe('/ (Verdaccio Page)', () => {
       // check whether user is logged
       const greetings = await page.evaluate(() => document.querySelector('.user-logged-greetings').textContent);
       const buttonLogout = await page.$('.header-button-logout');
-      expect(greetings).toMatch('Hi, test');
+      expect(greetings).toMatch('Hi, Test');
       expect(buttonLogout).toBeDefined();
     });
 

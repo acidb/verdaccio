@@ -8,8 +8,7 @@ First of all Jumping into an unfamiliar code base is not easy but we are here to
 
 If you are willing for asking, we use two channels for discussions:
 
-* [Public Gitter channel](https://gitter.im/verdaccio/)
-* [Contributors Slack channel](https://verdaccio-npm.slack.com) (unfortunately only by email invitation, you might ask in **Gitter** to be included)
+* [Public Discord channel](http://chat.verdaccio.org/)
 
 ## Getting started
 
@@ -31,7 +30,7 @@ Recently we have moved to modern techonologies as `React` and `element-react`. W
 
 ### I feel more confortable improving the stack
 
-Of course, we will be happy to help us improving the stack, you can upgrade dependencies as `eslint`, `stylelint`, `webpack`. You migt merely improve the `webpack` configuration would be great. Any suggestion is very welcome. Furthermore whether you have experience with **Yeoman** you might help us with the [verdaccio generator](https://github.com/verdaccio/generator-verdaccio-plugin).
+Of course, we will be happy to help us improving the stack, you can upgrade dependencies as `eslint`, `stylelint`, `webpack`. You might merely improve the `webpack` configuration would be great. Any suggestion is very welcome. Furthermore whether you have experience with **Yeoman** you might help us with the [verdaccio generator](https://github.com/verdaccio/generator-verdaccio-plugin).
 
 Here some ideas:
 

@@ -1,9 +1,12 @@
+const cluster = require('cluster');
 const Logger = require('bunyan');
 const Error = require('http-errors');
 const Stream = require('stream');
 const chalk = require('chalk');
 const Utils = require('./utils');
 const pkgJSON = require('../../package.json');
+const _ = require('lodash');
+const {format} = require('date-fns');
 
 /**
  * Match the level based on buyan severity scale
@@ -23,6 +26,16 @@ function getlvl(x) {
 }
 
 /**
+ * A RotatingFileStream that modifes the message first
+ */
+class VerdaccioRotatingFileStream extends Logger.RotatingFileStream { // We depend on mv so that this is there
+  write(obj) {
+    const msg = fillInMsgTemplate(obj.msg, obj, false);
+    super.write(JSON.stringify({...obj, msg}, Logger.safeCycles()) + '\n');
+  }
+}
+
+/**
  * Setup the Buyan logger
  * @param {*} logs list of log configuration
  */
@@ -33,51 +46,77 @@ function setup(logs) {
   }
 
   logs.forEach(function(target) {
-    // create a stream for each log configuration
-    const stream = new Stream();
-    stream.writable = true;
+    let level = target.level || 35;
+    if (level === 'http') {
+      level = 35;
+    }
 
-    if (target.type === 'stdout' || target.type === 'stderr') {
-      // destination stream
-      const dest = target.type === 'stdout' ? process.stdout : process.stderr;
+    // create a stream for each log configuration
+    if (target.type === 'rotating-file') {
+      if (target.format !== 'json') {
+        throw new Error('Rotating file streams only work with JSON!');
+      }
+      if (cluster.isWorker) {
+        // https://github.com/trentm/node-bunyan#stream-type-rotating-file
+        throw new Error('Cluster mode is not supported for rotating-file!');
+      }
+
+      const stream = new VerdaccioRotatingFileStream(
+        _.merge({},
+          // Defaults can be found here: https://github.com/trentm/node-bunyan#stream-type-rotating-file
+          target.options || {},
+          {path: target.path, level})
+      );
+
+      streams.push(
+          {
+            type: 'raw',
+            level,
+            stream,
+          }
+        );
+    } else {
+      const stream = new Stream();
+      stream.writable = true;
+
+      let destination;
+      let destinationIsTTY = false;
+      if (target.type === 'file') {
+        // destination stream
+        destination = require('fs').createWriteStream(target.path, {flags: 'a', encoding: 'utf8'});
+        destination.on('error', function(err) {
+          stream.emit('error', err);
+        });
+      } else if (target.type === 'stdout' || target.type === 'stderr') {
+        destination = target.type === 'stdout' ? process.stdout : process.stderr;
+        destinationIsTTY = destination.isTTY;
+      } else {
+        throw Error('wrong target type for a log');
+      }
 
       if (target.format === 'pretty') {
         // making fake stream for prettypritting
-        stream.write = function(obj) {
-          dest.write(print(obj.level, obj.msg, obj, dest.isTTY) + '\n');
+        stream.write = (obj) => {
+          destination.write(`${print(obj.level, obj.msg, obj, destinationIsTTY)}\n`);
         };
       } else if (target.format === 'pretty-timestamped') {
-        // making fake stream for prettypritting
-        stream.write = function(obj) {
-          dest.write(obj.time.toISOString() + print(obj.level, obj.msg, obj, dest.isTTY) + '\n');
+        // making fake stream for pretty pritting
+        stream.write = (obj) => {
+          destination.write(`[${format(obj.time, 'YYYY-MM-DD HH:mm:ss')}] ${print(obj.level, obj.msg, obj, destinationIsTTY)}\n`);
         };
       } else {
-        stream.write = function(obj) {
-          dest.write(JSON.stringify(obj, Logger.safeCycles()) + '\n');
+        stream.write = (obj) => {
+          const msg = fillInMsgTemplate(obj.msg, obj, destinationIsTTY);
+          destination.write(`${JSON.stringify({...obj, msg}, Logger.safeCycles())}\n`);
         };
       }
-    } else if (target.type === 'file') {
-      const dest = require('fs').createWriteStream(target.path, {flags: 'a', encoding: 'utf8'});
-      dest.on('error', function(err) {
-        Logger.emit('error', err);
-      });
-      stream.write = function(obj) {
-        if (target.format === 'pretty') {
-          dest.write(print(obj.level, obj.msg, obj, false) + '\n');
-        } else {
-          dest.write(JSON.stringify(obj, Logger.safeCycles()) + '\n');
-        }
-      };
-    } else {
-      throw Error('wrong target type for a log');
-    }
 
-    if (target.level === 'http') target.level = 35;
-    streams.push({
-      type: 'raw',
-      level: target.level || 35,
-      stream: stream,
-    });
+      streams.push({
+        type: 'raw',
+        level,
+        stream: stream,
+      });
+    }
   });
 
   // buyan default configuration
@@ -132,19 +171,8 @@ function pad(str) {
   return str;
 }
 
-/**
- * Apply colors to a string based on level parameters.
- * @param {*} type
- * @param {*} msg
- * @param {*} obj
- * @param {*} colors
- * @return {String}
- */
-function print(type, msg, obj, colors) {
-  if (typeof type === 'number') {
-    type = getlvl(type);
-  }
-  let finalmsg = msg.replace(/@{(!?[$A-Za-z_][$0-9A-Za-z\._]*)}/g, function(_, name) {
+function fillInMsgTemplate(msg, obj, colors) {
+  return msg.replace(/@{(!?[$A-Za-z_][$0-9A-Za-z\._]*)}/g, (_, name) => {
     let str = obj;
     let is_error;
     if (name[0] === '!') {
@@ -174,6 +202,21 @@ function print(type, msg, obj, colors) {
       return require('util').inspect(str, null, null, colors);
     }
   });
+}
+
+/**
+ * Apply colors to a string based on level parameters.
+ * @param {*} type
+ * @param {*} msg
+ * @param {*} obj
+ * @param {*} colors
+ * @return {String}
+ */
+function print(type, msg, obj, colors) {
+  if (typeof type === 'number') {
+    type = getlvl(type);
+  }
+  const finalmsg = fillInMsgTemplate(msg, obj, colors);
 
   const subsystems = [{
     in: chalk.green('<--'),

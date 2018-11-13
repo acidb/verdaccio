@@ -6,7 +6,7 @@ title: Docker
   ![alt Docker Pulls Count](http://dockeri.co/image/verdaccio/verdaccio "Docker Pulls Count")
 </div>
 
-To pull the latest pre-built [docker image](https://hub.docker.com/r/verdaccio/verdaccio/):
+Para fazer o pull do último pré-build[docker image](https://hub.docker.com/r/verdaccio/verdaccio/):
 
 ```bash
 docker pull verdaccio/verdaccio
@@ -14,58 +14,63 @@ docker pull verdaccio/verdaccio
 
 ![Docker pull](/svg/docker_verdaccio.gif)
 
-## Tagged Versions
+## Versões com Tags
 
-Since version `v2.x` you can pull docker images by [tag](https://hub.docker.com/r/verdaccio/verdaccio/tags/), as follows:
+Desde a versão `v2.x`, você pode fazer o pull das imagens pela [tag](https://hub.docker.com/r/verdaccio/verdaccio/tags/), por exemplo:
 
-For a major version:
+Para uma versão principal:
 
 ```bash
 docker pull verdaccio/verdaccio:3
 ```
 
-For a minor version:
+Para uma versão secundária:
 
 ```bash
 docker pull verdaccio/verdaccio:3.0
 ```
 
-For a specific (patch) version:
+Para uma versão específica (patch):
 
 ```bash
 docker pull verdaccio/verdaccio:3.0.1
 ```
 
-For the next major release using the `beta` (master branch) version.
+Para a próxima versão principal usando versão `beta` (master).
 
 ```bash
 docker pull verdaccio/verdaccio:beta
 ```
 
-> If you are interested on a list of tags, [please visit the Docker Hub website](https://hub.docker.com/r/verdaccio/verdaccio/tags/).
+> Se você está interessado em uma lista de tags, [acesse o Docker Hub](https://hub.docker.com/r/verdaccio/verdaccio/tags/).
 
-## Running verdaccio using Docker
+## Executando verdaccio usando Docker
 
-To run the docker container:
+Para executar o container do docker:
 
 ```bash
 docker run -it --rm --name verdaccio -p 4873:4873 verdaccio/verdaccio
 ```
 
-The last argument defines which image to use. The above line will pull the latest prebuilt image from dockerhub, if you haven't done that already.
+O último argumento define qual imagem usar. a linha acima vai buscar a imagem mais recente da pre-build do dockerhub, isso se você já não tiver feito.
 
-If you have [build an image locally](#build-your-own-docker-image) use `verdaccio` as the last argument.
+Se você tiver [uma imagem construída localmente](#build-your-own-docker-image) use `verdaccio` como o último argumento.
 
-You can use `-v` to bind mount `conf` and `storage` to the hosts filesystem:
+You can use `-v` to bind mount `conf`, `storage` and `plugins` to the hosts filesystem:
 
 ```bash
 V_PATH=/path/for/verdaccio; docker run -it --rm --name verdaccio -p 4873:4873 \
   -v $V_PATH/conf:/verdaccio/conf \
   -v $V_PATH/storage:/verdaccio/storage \
+  -v $V_PATH/plugins:/verdaccio/plugins \
   verdaccio/verdaccio
 ```
 
 > Note: Verdaccio runs as a non-root user (uid=100, gid=101) inside the container, if you use bind mount to override default, you need to make sure the mount directory is assigned to the right user. In above example, you need to run `sudo chown -R 100:101 /opt/verdaccio` otherwise you will get permission errors at runtime. [Use docker volume](https://docs.docker.com/storage/volumes/) is recommended over using bind mount.
+
+### Plugins
+
+Plugins can be installed in a separate directory and mounted using Docker or Kubernetes, however make sure you build plugins with native dependencies using the same base image as the Verdaccio Dockerfile.
 
 ### Docker and custom port configuration
 

@@ -20,7 +20,7 @@ module.exports = function(config, auth, storage) {
 
   // Static
   router.get('/-/static/:filename', function(req, res, next) {
-    const file = `${env.APP_ROOT}/static/${req.params.filename}`;
+    const file = `${env.DIST_PATH}/${req.params.filename}`;
     res.sendFile(file, function(err) {
       if (!err) {
         return;
@@ -43,7 +43,8 @@ module.exports = function(config, auth, storage) {
     const base = Utils.combineBaseUrl(Utils.getWebProtocol(req), req.get('host'), config.url_prefix);
     let webPage = template
       .replace(/ToReplaceByVerdaccio/g, base)
-      .replace(/ToReplaceByTitle/g, _.get(config, 'web.title') ? config.web.title : WEB_TITLE);
+      .replace(/ToReplaceByTitle/g, _.get(config, 'web.title') ? config.web.title : WEB_TITLE)
+      .replace(/ToReplaceByScope/g, _.get(config, 'web.scope') ? config.web.scope : '');
 
     res.setHeader('Content-Type', 'text/html');
 

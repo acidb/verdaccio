@@ -64,9 +64,12 @@ export function getListListenAddresses(argListen: string, configListen: mixed) {
  * @param {String} pkgVersion
  * @param {String} pkgName
  */
-function startVerdaccio(config: any, cliListen: string,
-                              configPath: string, pkgVersion: string,
-                              pkgName: string, callback: Callback) {
+function startVerdaccio(config: any,
+                        cliListen: string,
+                        configPath: string,
+                        pkgVersion: string,
+                        pkgName: string,
+                        callback: Callback) {
   if (isObject(config) === false) {
     throw new Error('config file must be an object');
   }
@@ -78,7 +81,7 @@ function startVerdaccio(config: any, cliListen: string,
       let webServer;
       if (addr.proto === 'https') {
         // https  must either have key cert and ca  or a pfx and (optionally) a passphrase
-        if (!config.https || !config.https.key || !config.https.cert || !config.https.ca) {
+        if (!config.https || !((config.https.key && config.https.cert && config.https.ca) || config.https.pfx)) {
           displayHTTPSWarning(configPath);
         }
 

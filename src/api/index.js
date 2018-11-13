@@ -5,23 +5,31 @@ import express from 'express';
 import compression from 'compression';
 import cors from 'cors';
 import Storage from '../lib/storage';
-import {loadPlugin} from '../lib/plugin-loader';
+import loadPlugin from '../lib/plugin-loader';
 import hookDebug from './debug';
 import Auth from '../lib/auth';
 import apiEndpoint from './endpoint';
-
-import type {$Application} from 'express';
-import type {$ResponseExtend, $RequestExtend, $NextFunctionVer, IStorageHandler, IAuth} from '../../types';
-import type {Config as IConfig} from '@verdaccio/types';
 import {ErrorCode} from '../lib/utils';
 import {API_ERROR, HTTP_STATUS} from '../lib/constants';
+import AppConfig from '../lib/config';
+
+import type {$Application} from 'express';
+import type {
+  $ResponseExtend,
+  $RequestExtend,
+  $NextFunctionVer,
+  IStorageHandler,
+  IAuth} from '../../types';
+import type {
+  Config as IConfig,
+  IPluginMiddleware,
+} from '@verdaccio/types';
 
 const LoggerApp = require('../lib/logger');
-const Config = require('../lib/config');
 const Middleware = require('./middleware');
 const Cats = require('../lib/status-cats');
 
-const defineAPI = function(config: Config, storage: IStorageHandler) {
+const defineAPI = function(config: IConfig, storage: IStorageHandler) {
   const auth: IAuth = new Auth(config);
   const app: $Application = express();
   // run in production mode by default, just in case
@@ -54,10 +62,10 @@ const defineAPI = function(config: Config, storage: IStorageHandler) {
     config: config,
     logger: LoggerApp.logger,
   };
-  const plugins = loadPlugin(config, config.middlewares, plugin_params, function(plugin) {
+  const plugins = loadPlugin(config, config.middlewares, plugin_params, function(plugin: IPluginMiddleware) {
     return plugin.register_middlewares;
   });
-  plugins.forEach(function(plugin) {
+  plugins.forEach((plugin) => {
     plugin.register_middlewares(app, auth, storage);
   });
 
@@ -103,7 +111,7 @@ const defineAPI = function(config: Config, storage: IStorageHandler) {
 
 export default async function(configHash: any) {
   LoggerApp.setup(configHash.logs);
-  const config: IConfig = new Config(configHash);
+  const config: IConfig = new AppConfig(configHash);
   const storage: IStorageHandler = new Storage(config);
   // waits until init calls have been intialized
   await storage.init(config);
